@@ -1,0 +1,53 @@
+:root {
+    --grey-light: rgba(255, 255, 255, 0.357);
+}
+
+body {
+    background-color: #000;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #fff;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+.__navbar {
+    background-color: #000;
+    color: #fff;
+    padding: 10px;
+    border-right: solid 1px var(--grey-light);
+    width: 20%;
+    padding: 0 10px;
+}
+
+.__navbar-brand {
+    padding: 0 20px;
+}
+
+.__content {
+    width: 60%;
+}
+
+.__menu {
+    border-left: solid 1px var(--grey-light);
+    width: 20%;
+    margin: 0;
+    padding: 0 10px;
+}
+
+.__menu .__log{
+    padding:50px 10px;
+    border: solid 1px var(--grey-light);
+    border-radius: 10px;
+    margin: 10px 0;
+}
+
+.__menu footer p {
+    margin: 2px 0;
+    padding: 0;
+    font-size: 14px;
+    color: var(--grey-light);
+}

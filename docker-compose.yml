@@ -1,0 +1,10 @@
+version: '3.9'
+
+services:
+  tp2:
+    image: mongo:latest
+    container_name: cloneTwitter
+    ports:
+      - 27017:27017
+    volumes:
+      - $PWD/data:/data/db
