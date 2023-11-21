@@ -1,0 +1,38 @@
+@import "../../styles/colors.scss";
+
+.__navbar {
+  padding: 0 40px;
+  align-items: center;
+  display: flex;
+  height: 70px;
+  justify-content: space-between;
+
+  .__logo_react {
+    width: 65px;
+    margin: auto 10px;
+    display:inline-block;
+    vertical-align: middle;
+  }
+
+  .__links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .__link {
+    background-color: #edeefa;
+    border-radius: 5px;
+    padding: 6px 8px;
+    color: #000;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 0 5px;
+    text-decoration: none;
+    transition: 0.4s;
+    &:hover {
+      color: #1a1a1a;
+      background-color: rgba(237, 238, 250, 0.5);
+    }
+  }
+}
