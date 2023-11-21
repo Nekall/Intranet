@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "NODE_ENV=env nodemon server.js",
+    "dev": "NODE_ENV=dev nodemon server.js",
     "start": "NODE_ENV=prod node server.js",
     "seed": "SEEDING_MODE=true node server.js"
   },

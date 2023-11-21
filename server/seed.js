@@ -1,4 +1,4 @@
-import { Users } from "./models/user.model.js";
+import { Users } from "./models/users.model.js";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 dotenv.config();
@@ -641,7 +641,9 @@ export const seed = async () => {
   try {
     for (let user of usersData) {
       user.password = await bcrypt.hash(
-        `${user.firstname}.${user.lastname}`,
+        user.email === "admin@admin.com"
+          ? "admin"
+          : `${user.firstname}.${user.lastname}`,
         parseInt(SALT_ROUNDS)
       );
     }
