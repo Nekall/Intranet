@@ -1,6 +1,6 @@
 # Intranet
 
 ## Start docker 
-- docker start 0801c6d76eaaa821f6df4daf9b8d0ba76bb3e0e0c37db6b4df32f9bfe6e32575
-- docker exec -it cloneTwitter bash
+- docker start 8dc2f2077c4d726fa209ad68b367b23ca0f22a2430a4cb1193f9057c33876842
+- docker exec -it intranet bash
 - mongosh
