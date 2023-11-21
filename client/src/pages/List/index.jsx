@@ -10,7 +10,6 @@ import Card from "../../components/Card";
 const List = () => {
   const [users, setUsers] = useState([]);
 
-  // fetch users
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/users`, {
       headers: {

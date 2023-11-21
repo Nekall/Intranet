@@ -8,9 +8,8 @@ import styles from "./styles.module.scss";
 import Card from "../../components/Card";
 
 const Home = () => {
-  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState([]);
 
-  // fetch users
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/users`, {
       headers: {
@@ -21,7 +20,9 @@ const Home = () => {
       .then(response => response.json())
       .then((data) => {
         console.log(data)
-        setUsers(data.data);
+        if(data.success) {
+          setUser(data.data[Math.floor(Math.random() * data.data.length)]);
+        }
       })
       .then(json => console.log(json));
   }
@@ -30,9 +31,11 @@ const Home = () => {
 
   return (
     <div className={styles.__home}>
-      {/* <h1>Intranet</h1> */}
-      <div className={styles.__users_container}>
-      <p>Say Hi to a random colleage</p>
+        <p>Say hello to a random colleague 👋</p>
+      <div className={styles.__container}>
+        <Card
+          user={user}
+        />
       </div>
     </div>
   );

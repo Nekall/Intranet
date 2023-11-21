@@ -30,6 +30,9 @@
     margin: 0 5px;
     text-decoration: none;
     transition: 0.4s;
+    border: none;
+    cursor: pointer;
+    
     &:hover {
       color: #1a1a1a;
       background-color: rgba(237, 238, 250, 0.5);
