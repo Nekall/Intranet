@@ -1,5 +1,5 @@
 import express from "express";
-import router from "./routes/index.js";
+import router from "./routes/general.router.js";
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import mongoose from "mongoose";
@@ -19,18 +19,11 @@ app.use(express.static(join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.set("views", join(__dirname, "views"));
-app.set("view engine", "pug");
-
 // router
 app.use("/", router);
 
-
 try {
-    await mongoose.connect(DB_HOST, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(DB_HOST);
       console.log("📡 Connected to mongoDB");
       app.listen(APP_PORT, () => {
         if (APP_HOSTNAME.includes("localhost")) {

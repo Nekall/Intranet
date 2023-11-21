@@ -1,5 +1,7 @@
 const home = (req, res) => {
-  res.render("home");
+  res.json({
+    message: "Hello world",
+  });
 };
 
 export { home };
