@@ -1,7 +1,15 @@
 import express from "express";
-const UsersRouter = express.Router();
-import { allUsers } from "../controllers/users.controller.js";
+const usersRouter = express.Router();
 
-UsersRouter.get("/", allUsers);
+// Controllers
+import { allUsers, update, remove } from "../controllers/users.controller.js";
 
-export default UsersRouter;
+// Middlewares
+import { authGuard } from "../middlewares/auth.guard.js";
+import { adminGuard } from "../middlewares/admin.guard.js";
+
+usersRouter.get("/", authGuard, allUsers);
+usersRouter.put("/:id", authGuard, update);
+usersRouter.delete("/:id", adminGuard, remove);
+
+export default usersRouter;
