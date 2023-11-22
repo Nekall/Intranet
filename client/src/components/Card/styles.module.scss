@@ -1,7 +1,7 @@
 @import "../../styles/colors.scss";
 
 .__card {
-  background: rgba(255, 255, 255, 0.2);
+  background: #18191b;
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5px);
@@ -10,12 +10,46 @@
 
   margin: 10px auto;
   width: 300px;
-	height: 450px;
+  height: 450px;
   padding: 20px;
+  color: #fff;
+  animation: 1s cardAppear forwards;
 
   .__avatar {
     width: 100px;
     height: 100px;
     border-radius: 50px;
+  }
+
+  .__gender {
+    width: 20px;
+    height: 20px;
+  }
+
+  @keyframes cardAppear {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+}
+
+.__card_out {
+  animation: 2s cardFall forwards;
+  transform-origin: bottom center;
+
+  @keyframes cardFall {
+    0% {
+      transform: rotate(0deg);
+      opacity: 1;
+    }
+
+    100% {
+      transform: rotate(40deg);
+      opacity: 0;
+    }
   }
 }

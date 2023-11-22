@@ -1,20 +1,58 @@
 .__home {
   text-align: center;
 
-  .__users_container {
+  h1 {
+    font-size: 30px;
+    font-weight: normal;
+    color: #fff;
+    margin-bottom: 20px;
+    margin-left: 20px;
+  }
+
+  .__container {}
+
+  .__hello_btn {
     background: rgba(255, 255, 255, 0.2);
     border-radius: 16px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 10px;
+    transition: 0.4s;
+    cursor: pointer;
+    font-size: 18px;
+    width: 300px;
 
-    margin: 20px;
-    height: 80vh;
-    overflow-y: scroll;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: 20px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    span {
+      margin-left: 4px;
+      transition: 0.4s;
+      font-size: 25px;
+      display: inline-block;
+    }
+
+    .__say_hi {
+      animation: hello 1s forwards;
+    }
   }
+
+  @keyframes hello {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    50% {
+      transform: rotate(40deg);
+    }
+
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
 }
