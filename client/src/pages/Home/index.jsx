@@ -1,5 +1,5 @@
-// Styles
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Styles
 import styles from "./styles.module.scss";
@@ -7,7 +7,27 @@ import styles from "./styles.module.scss";
 // Components
 import Card from "../../components/Card";
 
+// Helpers
+import jwtDecode from "../../helpers/jwtDecode";
+import isJwt from "../../helpers/isJwt";
+
 const Home = () => {
+  const navigate = useNavigate();
+  let userData;
+  const token = localStorage.getItem("__intranet_token");
+  console.log(token)
+  if (token) {
+    if (isJwt(token)) {
+      userData = jwtDecode(token);
+      console.log(userData)
+    } else {
+      localStorage.removeItem("__intranet_token");
+      navigate("/login");
+    }
+  } else {
+    navigate("/login");
+  }
+
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState([]);
   const [animation, setAnimation] = useState(false);
@@ -15,29 +35,39 @@ const Home = () => {
   useEffect(() => {
     if (users.length === 0) {
       fetch(`${process.env.REACT_APP_BACKEND_URL}/users`, {
+        method: "GET",
         headers: {
           "Access-Control-Allow-Origin": '*',
           "Content-Type": "application/json",
+          'Authorization': `Bearer ${token}`,
         }
       })
         .then(response => response.json())
         .then((data) => {
+          console.log("DATAAAAAAAAAAAAAAAAAAA");
           console.log(data)
           if (data.success) {
             setUsers(data.data);
             setUser(data.data[Math.floor(Math.random() * data.data.length)]);
+          } else {
+            navigate("/login");
           }
         })
-        .then(json => console.log(json));
+        .catch(error=>{
+          console.log("ERRRRRRRRRRRRRRRRRRROOOOOOOOOOOOOOOOOOORRRRRRRRRRRRRRRRR")
+          console.log(error);
+          navigate("/login");
+        });
     }
   }
-    , [user, users]);
+    , [user, users , navigate, token, users.length]);
 
   const sayHiToUser = () => {
     setAnimation(true);
 
     setTimeout(() => {
       setAnimation(false);
+      // if user id is the same as the current user id, get another user
       setUser(users[Math.floor(Math.random() * users.length)]);
     }, 1500);
 
@@ -46,7 +76,7 @@ const Home = () => {
 
   return (
     <div className={styles.__home}>
-      <h1>Hello Neka,</h1>
+      <h1>Hello {userData && userData.firstname},</h1>
       <div className={styles.__container}>
         <Card
           animation={animation}

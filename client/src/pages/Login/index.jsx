@@ -1,13 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
 // Styles
 import styles from "./styles.module.scss";
 
+// Helpers
+import isJwt from "../../helpers/isJwt";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+
+  const token = localStorage.getItem("__intranet_token");
+
+  useEffect(() => {
+    if (token) {
+      if (isJwt(token)) {
+        navigate('/');
+      }
+    }
+  }, [navigate, token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
