@@ -643,7 +643,7 @@ export const seed = async () => {
       user.password = await bcrypt.hash(
         user.email === "admin@admin.com"
           ? "admin"
-          : `${user.firstname}.${user.lastname}`,
+          : user.email.split("@")[0],
         parseInt(SALT_ROUNDS)
       );
     }

@@ -54,24 +54,28 @@ const update = async (req, res) => {
     data.password = password;
   }
 
-  const updatedUser = await Users.update({ _id: id }, { $set: data })
-    .then((user) => {
-      res.json({
-        success: true,
-        data: user,
-      });
-    })
-    .catch((error) => {
-      res.status(500).json({
-        success: false,
-        error: error.message,
-      });
+  try {
+    const updatedUser = await Users.updateOne({ _id: id }, { $set: data }, {
+      new: true,
     });
+    return res.json({
+      success: true,
+      data: updatedUser,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
 };
 
-const remove = async (_, res) => {
+
+const remove = async (req, res) => {
   const id = req.params.id;
+
   const user = await Users.findById(id);
+
   if (!user) {
     return res.status(404).json({
       success: false,
@@ -79,19 +83,18 @@ const remove = async (_, res) => {
     });
   }
 
-  Users.remove({ _id: id })
-    .then((user) => {
-      res.json({
-        success: true,
-        data: user,
-      });
-    })
-    .catch((error) => {
-      res.status(500).json({
-        success: false,
-        error: error.message,
-      });
+  try {
+    await Users.deleteOne({ _id: id });
+    res.status(200).json({
+      success: true,
+      message: "User deleted",
     });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "User not deleted",
+    });
+  }
 };
 
 export { allUsers, update, remove };
