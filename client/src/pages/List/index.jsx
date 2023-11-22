@@ -14,14 +14,13 @@ import isJwt from "../../helpers/isJwt";
 
 const List = () => {
   const [users, setUsers] = useState([]);
+  const [refresh, setRefresh] = useState(false);
   const navigate = useNavigate();
   let userData;
   const token = localStorage.getItem("__intranet_token");
-  console.log(token)
   if (token) {
     if (isJwt(token)) {
       userData = jwtDecode(token);
-      console.log(userData)
     } else {
       localStorage.removeItem("__intranet_token");
       navigate("/login");
@@ -49,11 +48,10 @@ const List = () => {
         }
       })
       .catch(error => {
-        console.log(error);
         navigate("/login");
       })
   }
-    , [navigate, token]);
+    , [navigate, token, refresh]);
 
 
   return (
@@ -61,7 +59,7 @@ const List = () => {
       <div className={styles.__users_container}>
         {users && users.map((user, index) => (
           <React.Fragment key={user.id}>
-            <Card user={user} />
+            <Card user={user} editMode={userData ? userData.isAdmin : false} setRefresh={setRefresh} refresh={refresh}/>
           </React.Fragment>
         ))}
       </div>

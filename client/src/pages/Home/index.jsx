@@ -15,11 +15,10 @@ const Home = () => {
   const navigate = useNavigate();
   let userData;
   const token = localStorage.getItem("__intranet_token");
-  console.log(token)
+
   if (token) {
     if (isJwt(token)) {
       userData = jwtDecode(token);
-      console.log(userData)
     } else {
       localStorage.removeItem("__intranet_token");
       navigate("/login");
@@ -44,8 +43,6 @@ const Home = () => {
       })
         .then(response => response.json())
         .then((data) => {
-          console.log("DATAAAAAAAAAAAAAAAAAAA");
-          console.log(data)
           if (data.success) {
             setUsers(data.data);
             setUser(data.data[Math.floor(Math.random() * data.data.length)]);
@@ -54,8 +51,7 @@ const Home = () => {
           }
         })
         .catch(error=>{
-          console.log("ERRRRRRRRRRRRRRRRRRROOOOOOOOOOOOOOOOOOORRRRRRRRRRRRRRRRR")
-          console.log(error);
+          console.error(error);
           navigate("/login");
         });
     }
@@ -81,6 +77,7 @@ const Home = () => {
         <Card
           animation={animation}
           user={user}
+          editMode={false}
         />
         <button className={styles.__hello_btn}
           onClick={sayHiToUser}
