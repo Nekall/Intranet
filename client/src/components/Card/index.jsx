@@ -11,18 +11,18 @@ import trash from "../../assets/images/trash.svg";
 import check from "../../assets/images/check.svg";
 
 // Helpers
-import jwtDecode from "../../helpers/jwtDecode";
+//import jwtDecode from "../../helpers/jwtDecode";
 
 const Card = ({ user, animation, editMode, refresh, setRefresh }) => {
     const token = localStorage.getItem("__intranet_token");
-    const userData = jwtDecode(token);
+
+    //const userData = jwtDecode(token);
     const [editFields, setEditFields] = useState(false);
     const birthdate = new Date(user.birthdate);
     const day = birthdate.getDate().toString().length === 1 ? `0${birthdate.getDate()}` : birthdate.getDate();
     const month = birthdate.getMonth().toString().length === 1 ? `0${birthdate.getMonth()}` : birthdate.getMonth();
     const year = birthdate.getFullYear();
     const birthday = `${day}/${month}/${year}`;
-    const [confirmDelete, setConfirmDelete] = useState(false);
 
     const [firstname, setFirstname] = useState(user.firstname);
     const [lastname, setLastname] = useState(user.lastname);
@@ -33,15 +33,6 @@ const Card = ({ user, animation, editMode, refresh, setRefresh }) => {
     const [city, setCity] = useState(user.city);
     const [country, setCountry] = useState(user.country);
     const [gender, setGender] = useState(user.gender);
-
-
-    useEffect(() => {
-        if (confirmDelete) {
-            setTimeout(() => {
-                setConfirmDelete(false)
-            }, 3000);
-        }
-    }, [confirmDelete]);
 
     const updateUser = (e) => {
         e.preventDefault();
@@ -58,7 +49,6 @@ const Card = ({ user, animation, editMode, refresh, setRefresh }) => {
         })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
                 if (data.success) {
                     setEditFields(!editFields)
                     setRefresh(!refresh)
@@ -83,7 +73,7 @@ const Card = ({ user, animation, editMode, refresh, setRefresh }) => {
             .then((response) => response.json())
             .then((data) => {
                 if (data.success) {
-                    setRefresh(!refresh)
+                    setRefresh(!refresh);
                 } else {
                     console.log("Error")
                 }
@@ -214,14 +204,8 @@ const Card = ({ user, animation, editMode, refresh, setRefresh }) => {
                             <button className={styles.__edit_btn} onClick={() => setEditFields(!editFields)}>
                                 <img src={edit} alt="Edit" />
                             </button>
-                            <button className={[styles.__delete_btn, user.isAdmin ? styles.__disable_btn : ""].join(" ")} onClick={() => {
-                                if (confirmDelete) {
-                                    deleteUser(user._id)
-                                } else {
-                                    setConfirmDelete(true)
-                                }
-                            }} disabled={user.isAdmin ? "true" : ""} title={confirmDelete ? "Are you sure ?" : "You cannot delete admin account"}>
-                                {confirmDelete ? <img src={check} alt="Check" /> : <img src={trash} alt="Trash" />}
+                            <button className={[styles.__delete_btn, user.isAdmin ? styles.__disable_btn : ""].join(" ")} onClick={deleteUser(user._id)} disabled={user.isAdmin ? "true" : ""} title={"You cannot delete admin account"}>
+                                <img src={trash} alt="Trash" />
                             </button>
                         </div>
                     </>

@@ -7,6 +7,7 @@
     color: #fff;
     margin-bottom: 20px;
     margin-left: 20px;
+    animation: appear 1s forwards;
   }
 
   .__container {}
@@ -26,16 +27,6 @@
     opacity: 0;
     animation: appear 1s forwards;
 
-    @keyframes appear {
-      0% {
-        opacity: 0;
-      }
-  
-      100% {
-        opacity: 1;
-      }
-    }
-
     &:hover {
       background: rgba(255, 255, 255, 0.3);
     }
@@ -49,6 +40,16 @@
 
     .__say_hi {
       animation: hello 1s forwards;
+    }
+  }
+
+  @keyframes appear {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
     }
   }
 
