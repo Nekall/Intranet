@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+
 .__navbar {
   padding: 0 40px;
   align-items: center;
@@ -8,8 +10,15 @@
   .__logo_react {
     width: 65px;
     margin: auto 10px;
-    display:inline-block;
+    display: inline-block;
     vertical-align: middle;
+  }
+
+  .__names {
+    font-family: 'Dancing Script', cursive;
+    font-size: 24px;
+    margin-right: 10px;
+    text-decoration: underline;
   }
 
   .__links {
@@ -30,7 +39,7 @@
     transition: 0.4s;
     border: none;
     cursor: pointer;
-    
+
     &:hover {
       color: #1a1a1a;
       background-color: rgba(237, 238, 250, 0.5);

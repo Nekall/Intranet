@@ -6,14 +6,18 @@ import { useNavigate } from 'react-router-dom';
 import styles from "./styles.module.scss";
 
 // Helpers
+import jwtDecode from "../../helpers/jwtDecode";
 import isJwt from "../../helpers/isJwt";
 
 const Navbar = () => {
   let navigate = useNavigate();
   const token = localStorage.getItem("__intranet_token");
+  let userData;
 
   if (token) {
-    if (!isJwt(token)) {
+    if (isJwt(token) && jwtDecode(token)) {
+      userData = jwtDecode(token);
+    } else {
       localStorage.removeItem("__intranet_token");
     }
   }
@@ -24,14 +28,17 @@ const Navbar = () => {
         <img className={styles.__logo_react} src={logo} alt="IntraNET Logo" />
       </Link>
       <div className={styles.__links}>
-        {token ?
-        <>
-        <Link className={styles.__link} to="/list">List</Link>
-        <button className={styles.__link} onClick={() => {
-          localStorage.removeItem("__intranet_token");
-          navigate('/login');
-        }}>Logout</button>
-        </>
+        {token && userData ?
+          <>
+            <p className={styles.__names}>
+              {userData.firstname} {userData.lastname}
+            </p>
+            <Link className={styles.__link} to="/list">List</Link>
+            <button className={styles.__link} onClick={() => {
+              localStorage.removeItem("__intranet_token");
+              navigate('/login');
+            }}>Logout</button>
+          </>
           :
           <Link className={styles.__link} to="/login">Login</Link>
         }
