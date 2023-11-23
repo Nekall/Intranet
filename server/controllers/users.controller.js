@@ -2,8 +2,7 @@ import bcrypt from "bcrypt";
 import { Users } from "../models/users.model.js";
 import dotenv from "dotenv";
 dotenv.config();
-const { SALT_ROUNDS, APP_HOSTNAME } = process.env;
-import { signUpValidators, loginValidators } from "../utils/validators.js";
+const { SALT_ROUNDS } = process.env;
 
 const allUsers = (req, res) => {
   // exemple: http://localhost:4242/users?category=Mark&city=Toul
@@ -26,13 +25,15 @@ const allUsers = (req, res) => {
     .then((users) => {
       res.json({
         success: true,
+        message: "All users found.",
         data: users,
       });
     })
     .catch((error) => {
       res.status(500).json({
         success: false,
-        error: error.message,
+        message: "An error has occurred, users cannot be found.",
+        details: error.message,
       });
     });
 };
@@ -41,11 +42,11 @@ const update = async (req, res) => {
   const id = req.params.id;
   const data = req.body;
 
-  const user = await Users.findById(id);
+  let user = await Users.findById(id);
   if (!user) {
     return res.status(404).json({
       success: false,
-      message: "User not found",
+      message: "This user's profile was not found.",
     });
   }
 
@@ -55,21 +56,28 @@ const update = async (req, res) => {
   }
 
   try {
-    const updatedUser = await Users.updateOne({ _id: id }, { $set: data }, {
-      new: true,
-    });
+    await Users.updateOne(
+      { _id: id },
+      { $set: data },
+      {
+        new: true,
+      }
+    );
+
+    user = await Users.findById(id);
     return res.json({
       success: true,
-      data: updatedUser,
+      message: `${user.firstname} ${user.lastname}'s profile has been updated.`,
+      data: user,
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
-      error: error.message,
+      message: "An error has occurred, this profile cannot be updated.",
+      details: error.message,
     });
   }
 };
-
 
 const remove = async (req, res) => {
   const id = req.params.id;
@@ -79,7 +87,7 @@ const remove = async (req, res) => {
   if (!user) {
     return res.status(404).json({
       success: false,
-      message: "User not found",
+      message: "This user's profile was not found.",
     });
   }
 
@@ -87,12 +95,13 @@ const remove = async (req, res) => {
     await Users.deleteOne({ _id: id });
     res.status(200).json({
       success: true,
-      message: "User deleted",
+      message: `${user.firstname} ${user.lastname}'s profile has been deleted.`,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "User not deleted",
+      message: "An error has occurred, this profile cannot be deleted.",
+      details: error.message,
     });
   }
 };
