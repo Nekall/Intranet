@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 // Styles
 import styles from "./styles.module.scss";
@@ -17,13 +18,15 @@ const Home = () => {
   const token = localStorage.getItem("__intranet_token");
 
   if (token) {
-    if (isJwt(token)) {
+    if (isJwt(token) && jwtDecode(token)) {
       userData = jwtDecode(token);
     } else {
       localStorage.removeItem("__intranet_token");
+      toast.error("An error has occurred with your session, please reconnect.", { style: { background: '#18191b' } })
       navigate("/login");
     }
   } else {
+    toast.error("An error has occurred with your session, please reconnect.", { style: { background: '#18191b' } })
     navigate("/login");
   }
 
@@ -47,44 +50,53 @@ const Home = () => {
             setUsers(data.data);
             setUser(data.data[Math.floor(Math.random() * data.data.length)]);
           } else {
+            toast.error("An error has occurred with your session, please reconnect.", { style: { background: '#18191b' } })
             navigate("/login");
           }
         })
-        .catch(error=>{
-          console.error(error);
+        .catch(_ => {
+          toast.error("An error has occurred, please contact support.", { style: { background: '#18191b' } })
           navigate("/login");
         });
     }
   }
-    , [user, users , navigate, token, users.length]);
+    , [user, users, navigate, token, users.length]);
 
   const sayHiToUser = () => {
     setAnimation(true);
 
     setTimeout(() => {
       setAnimation(false);
-      // if user id is the same as the current user id, get another user
-      setUser(users[Math.floor(Math.random() * users.length)]);
-    }, 1500);
 
+      const randomUserGen = () => {
+        const randomUser = users[Math.floor(Math.random() * users.length)];
+        if (randomUser._id === user._id) {
+          return randomUserGen();
+        } else {
+          return randomUser;
+        }
+      }
+      setUser(randomUserGen());
+    }, 1500);
   }
 
 
   return (
     <div className={styles.__home}>
       <h1>Hello {userData && userData.firstname},</h1>
-      <div className={styles.__container}>
-        <Card
-          animation={animation}
-          user={user}
-          editMode={false}
-        />
-        <button className={styles.__hello_btn}
-          onClick={sayHiToUser}
-        >Say hello to {user.firstname} {user.lastname}
-          <span className={animation ? styles.__say_hi : ""}>👋</span>
-        </button>
-      </div>
+      {user &&
+        <div className={styles.__container}>
+          <Card
+            animation={animation}
+            user={user}
+            editMode={false}
+          />
+          <button className={styles.__hello_btn}
+            onClick={sayHiToUser}
+          >Say hello to {user.firstname} {user.lastname}
+            <span className={animation ? styles.__say_hi : ""}>👋</span>
+          </button>
+        </div>}
     </div>
   );
 }

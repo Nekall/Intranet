@@ -10,13 +10,14 @@ const SearchBar = ({ setFilters, setRefresh, refresh }) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [select, setSelect] = useState("name");
 
-    const startSearch = () => {
+    const startSearch = (e) => {
+        e.preventDefault()
         setFilters(`?${select}=${searchTerm}`);
         setRefresh(!refresh);
     };
 
     return (
-        <div className={styles.__search_bar}>
+        <form className={styles.__search_bar} onSubmit={(e)=>startSearch(e)}>
             <img className={styles.__loupe_icon} src={loupe} alt="loupe" />
             <input
                 type="text"
@@ -32,8 +33,8 @@ const SearchBar = ({ setFilters, setRefresh, refresh }) => {
                 <option value="category">Category</option>
                 <option value="city">City</option>
             </select>
-            <button onClick={startSearch}>Search</button>
-        </div>
+            <button type="submit">Search</button>
+        </form>
     );
 }
 

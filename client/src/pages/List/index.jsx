@@ -1,6 +1,7 @@
 // Styles
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 // Styles
 import styles from "./styles.module.scss";
@@ -13,10 +14,14 @@ import SearchBar from "../../components/SearchBar";
 import jwtDecode from "../../helpers/jwtDecode";
 import isJwt from "../../helpers/isJwt";
 
+// Assets
+import logoLoading from "../../assets/images/logo-loading.svg";
+
 const List = () => {
   const [users, setUsers] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [filters, setFilters] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   let userData;
   const token = localStorage.getItem("__intranet_token");
@@ -25,13 +30,16 @@ const List = () => {
       userData = jwtDecode(token);
     } else {
       localStorage.removeItem("__intranet_token");
+      toast.error("An error has occurred with your session, please reconnect.", { style: { background: '#18191b' } })
       navigate("/login");
     }
   } else {
+    toast.error("An error has occurred with your session, please reconnect.", { style: { background: '#18191b' } })
     navigate("/login");
   }
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(`${process.env.REACT_APP_BACKEND_URL}/users${filters.length > 0 ? filters : ""}`, {
       method: "GET",
       headers: {
@@ -45,16 +53,18 @@ const List = () => {
       .then((data) => {
         if (data.success) {
           setUsers(data.data);
+          setIsLoading(false);
         } else {
+          toast.error("An error has occurred with your session, please reconnect.", { style: { background: '#18191b' } })
           navigate("/login");
         }
       })
       .catch(error => {
+        toast.error("An error has occurred, please contact support.", { style: { background: '#18191b' } })
         navigate("/login");
       })
   }
-    , [navigate, token, refresh]);
-
+    , [navigate, token, refresh, filters]);
 
   return (
     <div className={styles.__home}>
@@ -64,11 +74,20 @@ const List = () => {
         setRefresh={setRefresh}
       />
       <div className={styles.__users_container}>
-        {users && users.map((user, index) => (
-          <React.Fragment key={user.id}>
+        {users && users.length > 0 && users.map((user, index) => (
+          <React.Fragment key={`${user.email}-${index}`}>
             <Card user={user} editMode={userData ? userData.isAdmin : false} setRefresh={setRefresh} refresh={refresh} />
           </React.Fragment>
         ))}
+        {users && users.length === 0 &&
+
+          <div className={styles.__result}>
+            {isLoading ?
+              <img src={logoLoading} alt="logoLoading" />
+              :
+              <h1>No users found</h1>
+            }
+          </div>}
       </div>
     </div>
   );

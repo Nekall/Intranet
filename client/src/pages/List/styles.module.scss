@@ -16,5 +16,13 @@
     flex-direction: row;
     flex-wrap: wrap;
     padding: 20px;
+
+    .__result {
+      width: 100%;
+      margin: 10px;
+      text-align: center;
+      font-size: 16px;
+      color: #fff;
+    }
   }
 }

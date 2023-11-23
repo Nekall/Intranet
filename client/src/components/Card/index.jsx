@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 // Styles
 import styles from "./styles.module.scss";
@@ -8,15 +9,9 @@ import maleSymbol from "../../assets/images/male-symbol.svg";
 import femaleSymbol from "../../assets/images/female-symbol.svg";
 import edit from "../../assets/images/edit.svg";
 import trash from "../../assets/images/trash.svg";
-import check from "../../assets/images/check.svg";
-
-// Helpers
-//import jwtDecode from "../../helpers/jwtDecode";
 
 const Card = ({ user, animation, editMode, refresh, setRefresh }) => {
     const token = localStorage.getItem("__intranet_token");
-
-    //const userData = jwtDecode(token);
     const [editFields, setEditFields] = useState(false);
     const birthdate = new Date(user.birthdate);
     const day = birthdate.getDate().toString().length === 1 ? `0${birthdate.getDate()}` : birthdate.getDate();
@@ -52,12 +47,13 @@ const Card = ({ user, animation, editMode, refresh, setRefresh }) => {
                 if (data.success) {
                     setEditFields(!editFields)
                     setRefresh(!refresh)
+                    toast.success(`${data.data.firstname} ${data.data.lastname}'s profile has been successfully updated.`, { style: { background: '#18191b' } })
                 } else {
-                    console.log("Error")
+                    toast.error(data.message, { style: { background: '#18191b' } })
                 }
             })
-            .catch((error) => {
-                console.error(error);
+            .catch(_ => {
+                toast.error("An error has occurred, please contact support.", { style: { background: '#18191b' } })
             })
     }
 
@@ -74,12 +70,13 @@ const Card = ({ user, animation, editMode, refresh, setRefresh }) => {
             .then((data) => {
                 if (data.success) {
                     setRefresh(!refresh);
+                    toast.success(data.message, { style: { background: '#18191b' } })
                 } else {
-                    console.log("Error")
+                    toast.error(data.message, { style: { background: '#18191b' } })
                 }
             })
-            .catch((error) => {
-                console.error(error);
+            .catch(_ => {
+                toast.error("An error has occurred, please contact support.", { style: { background: '#18191b' } })
             })
     }
 
@@ -98,16 +95,16 @@ const Card = ({ user, animation, editMode, refresh, setRefresh }) => {
             .then((response) => response.json())
             .then((data) => {
                 if (data.success) {
-                    setRefresh(!refresh)
+                    setRefresh(!refresh);
+                    toast.success("User ROLE updated successfully.", { style: { background: '#18191b' } })
                 } else {
-                    console.log("Error")
+                    toast.error(data.message, { style: { background: '#18191b' } })
                 }
             })
-            .catch((error) => {
-                console.error(error);
+            .catch(_ => {
+                toast.error("An error has occurred, please contact support.", { style: { background: '#18191b' } })
             })
     }
-
 
     return (
         <div className={[styles.__card, animation ? styles.__card_out : ""].join(" ")}>
@@ -204,7 +201,7 @@ const Card = ({ user, animation, editMode, refresh, setRefresh }) => {
                             <button className={styles.__edit_btn} onClick={() => setEditFields(!editFields)}>
                                 <img src={edit} alt="Edit" />
                             </button>
-                            <button className={[styles.__delete_btn, user.isAdmin ? styles.__disable_btn : ""].join(" ")} onClick={deleteUser(user._id)} disabled={user.isAdmin ? "true" : ""} title={"You cannot delete admin account"}>
+                            <button className={[styles.__delete_btn, user.isAdmin ? styles.__disable_btn : ""].join(" ")} onClick={deleteUser(user._id)} disabled={user.isAdmin} title={"You cannot delete admin account"}>
                                 <img src={trash} alt="Trash" />
                             </button>
                         </div>

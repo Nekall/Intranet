@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
 
 // Styles
 import styles from "./styles.module.scss";
@@ -41,6 +42,8 @@ const Login = () => {
         if (data.success) {
           localStorage.setItem("__intranet_token", data.token)
           navigate('/');
+        } else {
+          toast.error(data.message, { style: { background: '#18191b' } });
         }
       })
       .catch((error) => {
@@ -71,7 +74,7 @@ const Login = () => {
           name="password"
           required
         />
-        <button type="submit">Submit</button>
+        <button type="submit">Login</button>
       </form>
     </div>
   );
