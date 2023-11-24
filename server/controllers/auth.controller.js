@@ -58,8 +58,7 @@ const login = async (req, res) => {
   } catch {
     return res.status(500).json({
       success: false,
-      message: "An error has occurred, please try again later.",
-      details: error.message,
+      message: "An error has occurred, please try again later."
     });
   }
 };
