@@ -47,8 +47,12 @@ const Home = () => {
         .then(response => response.json())
         .then((data) => {
           if (data.success) {
-            setUsers(data.data);
-            setUser(data.data[Math.floor(Math.random() * data.data.length)]);
+            const filteredUsers = data.data.filter((user) => {
+              return user._id !== userData.id;
+            })
+
+            setUsers(filteredUsers);
+            setUser(filteredUsers[Math.floor(Math.random() * filteredUsers.length)]);
           } else {
             toast.error("An error has occurred with your session, please reconnect.", { style: { background: '#18191b' } })
             navigate("/login");
@@ -60,26 +64,17 @@ const Home = () => {
         });
     }
   }
-    , [user, users, navigate, token, users.length]);
+    , [user, users, navigate, token, users.length, userData.id]);
 
   const sayHiToUser = () => {
     setAnimation(true);
 
     setTimeout(() => {
       setAnimation(false);
-
-      const randomUserGen = () => {
-        const randomUser = users[Math.floor(Math.random() * users.length)];
-        if (randomUser._id === user._id) {
-          return randomUserGen();
-        } else {
-          return randomUser;
-        }
-      }
-      setUser(randomUserGen());
+      const randomUser = () => users[Math.floor(Math.random() * users.length)];
+      setUser(randomUser());
     }, 1500);
   }
-
 
   return (
     <div className={styles.__home}>
