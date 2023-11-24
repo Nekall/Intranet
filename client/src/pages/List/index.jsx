@@ -22,23 +22,24 @@ const List = () => {
   const [refresh, setRefresh] = useState(false);
   const [filters, setFilters] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [userData, setUserData] = useState();
   const navigate = useNavigate();
-  let userData;
   const token = localStorage.getItem("__intranet_token");
-  if (token) {
-    if (isJwt(token)) {
-      userData = jwtDecode(token);
+
+  useEffect(() => {
+    if (token) {
+      if (isJwt(token)) {
+        setUserData(jwtDecode(token));
+      } else {
+        localStorage.removeItem("__intranet_token");
+        toast.error("An error has occurred with your session, please reconnect.", { style: { background: '#18191b' } })
+        navigate("/login");
+      }
     } else {
-      localStorage.removeItem("__intranet_token");
       toast.error("An error has occurred with your session, please reconnect.", { style: { background: '#18191b' } })
       navigate("/login");
     }
-  } else {
-    toast.error("An error has occurred with your session, please reconnect.", { style: { background: '#18191b' } })
-    navigate("/login");
-  }
 
-  useEffect(() => {
     setIsLoading(true);
     fetch(`${process.env.REACT_APP_BACKEND_URL}/users${filters.length > 0 ? filters : ""}`, {
       method: "GET",

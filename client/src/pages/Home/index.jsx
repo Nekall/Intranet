@@ -22,11 +22,9 @@ const Home = () => {
       userData = jwtDecode(token);
     } else {
       localStorage.removeItem("__intranet_token");
-      toast.error("An error has occurred with your session, please reconnect.", { style: { background: '#18191b' } })
       navigate("/login");
     }
   } else {
-    toast.error("An error has occurred with your session, please reconnect.", { style: { background: '#18191b' } })
     navigate("/login");
   }
 
@@ -35,7 +33,11 @@ const Home = () => {
   const [animation, setAnimation] = useState(false);
 
   useEffect(() => {
-    if (users.length === 0) {
+    if (!token || !userData) {
+      navigate("/login");
+    }
+    
+    if (userData && users.length === 0) {
       fetch(`${process.env.REACT_APP_BACKEND_URL}/users`, {
         method: "GET",
         headers: {
@@ -64,7 +66,7 @@ const Home = () => {
         });
     }
   }
-    , [user, users, navigate, token, users.length, userData.id]);
+    , [user, users, navigate, token, users.length, userData]);
 
   const sayHiToUser = () => {
     setAnimation(true);
@@ -78,7 +80,7 @@ const Home = () => {
 
   return (
     <div className={styles.__home}>
-      <h1>Hello {userData && userData.firstname},</h1>
+      {userData &&<h1>Hello {userData && userData.firstname},</h1>}
       {user &&
         <div className={styles.__container}>
           <Card

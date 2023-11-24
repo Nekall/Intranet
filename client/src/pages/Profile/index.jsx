@@ -15,6 +15,7 @@ import isJwt from "../../helpers/isJwt";
 const Profile = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState();
+  const [refresh, setRefresh] = useState(false);
   let userData;
   const token = localStorage.getItem("__intranet_token");
 
@@ -32,7 +33,11 @@ const Profile = () => {
   }
 
   useEffect(() => {
-    if(userData) {
+    if (!token || !userData) {
+      navigate("/login");
+    }
+
+    if (userData) {
       fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${userData.id}`, {
         method: "GET",
         headers: {
@@ -56,7 +61,7 @@ const Profile = () => {
         });
     }
   }
-    , []);
+    , [refresh]);
 
   return (
     <div className={styles.__profile}>
@@ -67,6 +72,8 @@ const Profile = () => {
             user={user}
             editMode={true}
             editModeAdmin={false}
+            setRefresh={setRefresh}
+            refresh={refresh}
           />
         </div>}
     </div>
