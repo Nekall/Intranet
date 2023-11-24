@@ -76,7 +76,7 @@ const List = () => {
       <div className={styles.__users_container}>
         {users && users.length > 0 && users.map((user, index) => (
           <React.Fragment key={`${user.email}-${index}`}>
-            <Card user={user} editMode={userData ? userData.isAdmin : false} setRefresh={setRefresh} refresh={refresh} />
+            <Card user={user} editMode={userData ? userData.isAdmin : false} editModeAdmin={userData ? userData.isAdmin : false} setRefresh={setRefresh} refresh={refresh} />
           </React.Fragment>
         ))}
         {users && users.length === 0 &&

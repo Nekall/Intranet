@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
-
 .__navbar {
   padding: 0 40px;
   align-items: center;
@@ -12,14 +10,6 @@
     margin: auto 10px;
     display: inline-block;
     vertical-align: middle;
-  }
-
-  .__names {
-    font-family: 'Dancing Script', cursive;
-    font-size: 24px;
-    margin-right: 10px;
-    text-decoration: underline;
-    color: #fff;
   }
 
   .__links {
@@ -48,15 +38,11 @@
   }
 
   @media screen and (max-width: 768px) {
-    padding: 0 20px;
+    padding: 0 5px;
 
     .__logo_react {
       width: 50px;
       margin: auto 2px;
-    }
-
-    .__names {
-      font-size: 20px;
     }
   }
 }

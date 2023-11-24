@@ -13,7 +13,7 @@ import trash from "../../assets/images/trash.svg";
 // Helpers
 import validators from "../../helpers/validators";
 
-const Card = ({ user, animation, editMode, refresh, setRefresh }) => {
+const Card = ({ user, animation, editMode, editModeAdmin, refresh, setRefresh }) => {
     const token = localStorage.getItem("__intranet_token");
     const [editFields, setEditFields] = useState(false);
     const birthdate = new Date(user.birthdate);
@@ -231,16 +231,16 @@ const Card = ({ user, animation, editMode, refresh, setRefresh }) => {
                     </>}
                 {editMode && (
                     <>
-                        <div className={styles.__is_admin}>
+                        {editModeAdmin && <div className={styles.__is_admin}>
                             <button className={[styles.__change_btn, user.isAdmin ? styles.__admin : styles.__user].join(" ")} onClick={updateRole(user._id)}>{user.isAdmin ? "Admin" : "User"}</button>
-                        </div>
+                        </div>}
                         <div className={styles.__edit_mode}>
                             <button className={styles.__edit_btn} onClick={() => setEditFields(!editFields)}>
                                 <img src={edit} alt="Edit" />
                             </button>
-                            <button className={[styles.__delete_btn, user.isAdmin ? styles.__disable_btn : ""].join(" ")} onClick={deleteUser(user._id)} disabled={user.isAdmin} title={"You cannot delete admin account"}>
+                            {editModeAdmin && <button className={[styles.__delete_btn, user.isAdmin ? styles.__disable_btn : ""].join(" ")} onClick={deleteUser(user._id)} disabled={user.isAdmin} title={"You cannot delete admin account"}>
                                 <img src={trash} alt="Trash" />
-                            </button>
+                            </button>}
                         </div>
                     </>
                 )}

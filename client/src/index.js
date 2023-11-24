@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import List from "./pages/List";
+import Profile from "./pages/Profile";
 
 // Components
 import Navbar from "./components/Navbar";
@@ -33,7 +34,9 @@ root.render(
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/list" element={<List />} />
+        <Route path="/list" element={<List />} />*
+        <Route path="/profile" element={<Profile />} />
+        <Route path="*" element={<Profile />} />
         {/* <Route path="*" element={<ErrorPage />} /> */}
       </Routes>
     </Router>

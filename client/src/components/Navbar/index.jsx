@@ -30,9 +30,7 @@ const Navbar = () => {
       <div className={styles.__links}>
         {token && userData ?
           <>
-            <p className={styles.__names}>
-              {userData.firstname} {userData.lastname}
-            </p>
+            <Link className={styles.__link} to="/profile">{userData.firstname} {userData.lastname}</Link>
             <Link className={styles.__link} to="/list">List</Link>
             <button className={styles.__link} onClick={() => {
               localStorage.removeItem("__intranet_token");

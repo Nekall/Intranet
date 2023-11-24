@@ -1,0 +1,36 @@
+.__profile {
+  text-align: center;
+
+  h1 {
+    font-size: 30px;
+    font-weight: normal;
+    color: #fff;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    animation: appear 1s forwards;
+  }
+
+  .__container {}
+
+  @keyframes appear {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    h1 {
+      font-size: 20px;
+      margin: 0;
+    }
+
+    .__container {
+      overflow: hidden;
+    }
+  }
+
+}
