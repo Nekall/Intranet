@@ -35,7 +35,7 @@
   }
 
   .__edit_user {
-    .__field{
+    .__field {
       display: flex;
     }
 
@@ -44,7 +44,8 @@
       text-align: start;
     }
 
-    input, select {
+    input,
+    select {
       margin-bottom: 2px;
       background-color: #edeefa;
       border-radius: 5px;
@@ -64,19 +65,19 @@
       color: #000;
       cursor: pointer;
       transition: 0.4s;
-      
+
       &:hover {
         background-color: #edeefa;
       }
     }
   }
 
-  .__is_admin{
+  .__is_admin {
     position: absolute;
     top: -5px;
     left: -5px;
 
-    .__user{
+    .__user {
       background: rgba(30, 101, 225, 0.2);
     }
 
@@ -87,8 +88,6 @@
     .__change_btn {
       border-radius: 12px 0 12px 0;
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
       border: 1px solid rgba(255, 255, 255, 0.3);
       margin: 5px;
       display: block;
@@ -98,7 +97,6 @@
       color: #fff;
       cursor: pointer;
       transition: 0.4s;
-
 
       &:hover {
         opacity: 0.8;
@@ -156,7 +154,7 @@
     }
 
     100% {
-      transform: rotate(40deg);
+      transform: rotate(20deg);
       opacity: 0;
     }
   }

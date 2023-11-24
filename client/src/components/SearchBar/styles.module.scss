@@ -49,4 +49,15 @@
       background: rgba(255, 255, 255, 0.3);
     }
   }
+
+  @media screen and (max-width: 768px) {
+    top: 75px;
+    right: 0;
+    width: 350px;
+
+    input {
+      width: 170px;
+      margin-left: 0;
+    }
+  }
 }

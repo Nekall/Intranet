@@ -25,4 +25,11 @@
       color: #fff;
     }
   }
+
+  @media screen and (max-width: 768px) {
+    .__users_container {
+      height: 70vh;
+      margin: 60px 20px 20px 20px;
+    }
+  }
 }
