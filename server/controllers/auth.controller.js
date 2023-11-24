@@ -1,17 +1,26 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
+// Models
 import { Users } from "../models/users.model.js";
+
+// Utils
+import { loginValidators } from "../utils/validators.js";
 
 const login = async (req, res) => {
   const { email, password } = req.body;
 
-  if (!email || !password) {
+  const errors = loginValidators({ email, password });
+
+  if (!errors.noErrors) {
+    delete errors.noErrors;
     return res.status(400).json({
       success: false,
-      message: "Missing email and/or password.",
+      message: "Invalid email and/or password.",
+      details: errors,
     });
   }
+
   try {
     const user = await Users.findOne({ email });
 

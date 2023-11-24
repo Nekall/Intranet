@@ -4,6 +4,9 @@ import dotenv from "dotenv";
 dotenv.config();
 const { SALT_ROUNDS } = process.env;
 
+// Utils
+import { updateUserValidators } from "../utils/validators.js";
+
 const allUsers = (req, res) => {
   // exemple: http://localhost:4242/users?category=Mark&city=Toul
   const params = req.query;
@@ -41,6 +44,17 @@ const allUsers = (req, res) => {
 const update = async (req, res) => {
   const id = req.params.id;
   const data = req.body;
+
+  const errors = updateUserValidators(data);
+
+  if (!errors.noErrors) {
+    delete errors.noErrors;
+    return res.status(400).json({
+      success: false,
+      message: "This profile cannot be updated.",
+      details: errors,
+    });
+  }
 
   let user = await Users.findById(id);
   if (!user) {
