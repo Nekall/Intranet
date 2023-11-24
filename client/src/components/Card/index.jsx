@@ -10,6 +10,9 @@ import femaleSymbol from "../../assets/images/female-symbol.svg";
 import edit from "../../assets/images/edit.svg";
 import trash from "../../assets/images/trash.svg";
 
+// Helpers
+import validators from "../../helpers/validators";
+
 const Card = ({ user, animation, editMode, refresh, setRefresh }) => {
     const token = localStorage.getItem("__intranet_token");
     const [editFields, setEditFields] = useState(false);
@@ -31,6 +34,22 @@ const Card = ({ user, animation, editMode, refresh, setRefresh }) => {
 
     const updateUser = (e) => {
         e.preventDefault();
+        if (!validators.firstname(firstname)) {
+            return toast.error("Firstname is not valid. (It must be between 3 and 20 letters long)", { style: { background: '#18191b' } })
+        }
+        if (!validators.lastname(lastname)) {
+            return toast.error("Lastname is not valid. (It must be between 3 and 20 letters long)", { style: { background: '#18191b' } })
+        }
+        if (!validators.phone(phone)) {
+            return toast.error("Phone is not valid. (It must be a valid phone number like 01-23-45-67-89)", { style: { background: '#18191b' } })
+        }
+        if (!validators.city(city)) {
+            return toast.error("City is not valid. (It must be between 3 and 20 letters long)", { style: { background: '#18191b' } })
+        }
+        if (!validators.country(country)) {
+            return toast.error("Country is not valid. (It must be between 3 and 20 letters long)", { style: { background: '#18191b' } })
+        }
+
         fetch(`${process.env.REACT_APP_BACKEND_URL}/users/${user._id}`, {
             method: "PUT",
             headers: {
