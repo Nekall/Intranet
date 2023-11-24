@@ -1,10 +1,9 @@
 import jwt from "jsonwebtoken";
 
-// Models
-import {Users} from "../models/users.model.js";
-
-export const adminGuard = async (req, res, next) => {
+export const ownerGuard = async (req, res, next) => {
   const authHeader = req.headers.authorization;
+  const id = req.params.id;
+
   if (!authHeader) {
     return res.status(401).json({
       success: false,
@@ -17,10 +16,14 @@ export const adminGuard = async (req, res, next) => {
       process.env.JWT_SECRET
     );
 
-    if (!decodedToken.isAdmin) {
+    if(decodedToken.isAdmin){
+      return next()
+    }
+
+    if (decodedToken.id !== id) {
       return res.status(403).json({
         success: false,
-        message: "You are not allowed to access this resource #1",
+        message: "You are not allowed to access this resource",
       });
     }
 
@@ -28,6 +31,7 @@ export const adminGuard = async (req, res, next) => {
     return res.status(401).json({
       success: false,
       message: "Invalid authentication token",
+      details: error.message,
     });
   }
   next();

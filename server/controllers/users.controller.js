@@ -7,6 +7,30 @@ const { SALT_ROUNDS } = process.env;
 // Utils
 import { updateUserValidators } from "../utils/validators.js";
 
+const findOneUser = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await Users.findById(id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "This user's profile was not found.",
+      });
+    }
+    return res.json({
+      success: true,
+      message: "User found.",
+      data: user,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "An error has occurred, this profile cannot be found.",
+      details: error.message,
+    });
+  }
+};
+
 const allUsers = (req, res) => {
   // exemple: http://localhost:4242/users?category=Mark&city=Toul
   const params = req.query;
@@ -120,4 +144,4 @@ const remove = async (req, res) => {
   }
 };
 
-export { allUsers, update, remove };
+export { findOneUser, allUsers, update, remove };
