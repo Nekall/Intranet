@@ -1,3 +1,18 @@
+# Var Env
+
+## Frontend
+```
+APP_HOSTNAME=http://XXXXXXXXXXX:XXXX/
+APP_PORT=XXXX
+SEEDING_MODE=false
+DB_HOST="mongodb://localhost:27017/intranet"
+JWT_SECRET="XXXXXXXXXXXXXXXXXXXXX"
+```
+## Backend
+```
+REACT_APP_BACKEND_URL=http://XXXXXXXXXXXX:XXXX
+```
+
 # Node 4 : Projet collaborateurs
 
 Vous êtes en charge de développer la plateforme Intranet de votre société.
