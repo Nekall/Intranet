@@ -58,7 +58,16 @@ const Card = ({ user, animation, editMode, refresh, setRefresh }) => {
                 "Authorization": `Bearer ${token}`,
             },
             body: JSON.stringify({
-                firstname, lastname, birthdate: currentBirthdate, email, phone, city, country, gender, category
+                firstname,
+                lastname,
+                birthdate: currentBirthdate,
+                email,
+                phone,
+                city,
+                country,
+                gender,
+                category,
+                isAdmin: user.isAdmin
             })
         })
             .then((response) => response.json())
@@ -108,6 +117,15 @@ const Card = ({ user, animation, editMode, refresh, setRefresh }) => {
                 'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify({
+                firstname: user.firstname,
+                lastname: user.lastname,
+                birthdate: user.birthdate,
+                email: user.email,
+                phone: user.phone,
+                city: user.city,
+                country: user.country,
+                gender: user.gender,
+                category: user.category,
                 isAdmin: !user.isAdmin
             })
         })
